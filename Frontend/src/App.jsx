@@ -20,6 +20,8 @@ function App() {
   // Stores the generated QR Code image
   const [qrImage, setQrImage] = useState("");
 
+  const [loading, setLoading] = useState(false);
+
   // ======================================================
   // Sends the original URL to the backend and receives
   // the shortened URL
@@ -27,8 +29,8 @@ function App() {
   const handleShorten = async () => {
 
     // Don't make the API call if the input is empty
-    if (!url) return;
-
+    if (!url || loading) return;
+    setLoading(true);
     try {
 
       // Send the original URL to the backend
@@ -50,6 +52,8 @@ function App() {
     } catch (err) {
       console.log(err);
       alert("Something went wrong");
+    } finally{
+      setLoading(false);
     }
   };
 
@@ -103,6 +107,7 @@ function App() {
           <button
             onClick={handleShorten}
             className="rounded-xl bg-red-600 px-6 py-3 font-semibold text-white hover:bg-red-700 transition duration-300 shadow-lg shadow-red-500/30"
+            disabled={loading}
           >
             Shorten
           </button>
