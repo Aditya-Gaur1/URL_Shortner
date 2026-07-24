@@ -33,7 +33,7 @@ app.use("/", urlRoutes);
 
 // Connect to MongoDB
 mongoose
-    .connect(process.env.MONGo_URI)
+    .connect(process.env.MONGO_URI)
     .then(() => {
         console.log("Connected to MongoDB");
 
