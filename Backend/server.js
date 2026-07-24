@@ -5,6 +5,7 @@ import cors from "cors";
 import dns from "node:dns";
 // Use Google's DNS servers
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
+import urlRoutes from './routes/url.js'
 
 dotenv.config();
 const app = express();
@@ -14,9 +15,7 @@ app.use(cors({
 }));
 app.use(express.json());
 
-app.get("/", (req , res) => {
-    res.send("Hello World")
-})
+app.use("/", urlRoutes);
 
 mongoose.connect(process.env.MONGo_URI)
 .then(() => {
