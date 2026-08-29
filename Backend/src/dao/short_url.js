@@ -16,17 +16,50 @@
 import shortUrl from "../models/shortUrl.model.js";
 
 export const saveShortUrl = async (shortCode, originalUrl, userId) => {
+    try {
+        const shortUrlDocument = new shortUrl({
+            full_url: originalUrl,
+            short_url: shortCode
+        });
 
-    const shortUrlDocument = new shortUrl({
-        full_url: originalUrl,
-        short_url: shortCode
-    });
+        if (userId) {
+            shortUrlDocument.user = userId;
+        }
 
-    if (userId) {
-        shortUrlDocument.user_id = userId;
+        await shortUrlDocument.save();
+
+        console.log(`💾 URL saved to database: ${shortCode}`);
+
+    } catch (error) {
+        console.error(
+            "❌ Error while saving short URL:",
+            error.message
+        );
+
+        throw error;
     }
+};
 
-    await shortUrlDocument.save();
 
-    console.log(`💾 URL saved to database: ${shortCode}`);
+export const getShortUrlAndIncrementClicks = async (shortCode) => {
+    try {
+        const url = await shortUrl.findOneAndUpdate(
+            { short_url: shortCode },
+            { $inc: { clicks: 1 } },
+            { new: true }
+        );
+
+        console.log("Short code:", shortCode);
+        console.log("Updated document:", url);
+
+        return url;
+
+    } catch (error) {
+        console.error(
+            "❌ Error while getting short URL:",
+            error.message
+        );
+
+        throw error;
+    }
 };

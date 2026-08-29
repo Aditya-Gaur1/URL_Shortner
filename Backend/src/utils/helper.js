@@ -6,5 +6,10 @@ import { nanoid } from "nanoid";
  * @returns {string} Generated short code.
  */
 export const generateShortCode = (length = 7) => {
-    return nanoid(length);
+    try {
+        return nanoid(length);
+    } catch (error) {
+        console.error("❌ Error while generating short code:", error.message);
+        throw error;
+    }
 };

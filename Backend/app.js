@@ -1,15 +1,17 @@
 import express from "express";
 import dotenv from "dotenv";
 
-import connectDB from "./src/config/mongo.config.js";
+import connectDB from "./src/config/mongo.config.js"; 
 import shortUrlRoutes from "./src/routes/shortUrl.route.js";
 import { redirectToShort } from "./src/controller/shortUrl.controller.js";
-
+import cors from "cors"
 dotenv.config();
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors())
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -35,6 +37,8 @@ const startServer = async () => {
 
     } catch (error) {
         console.error("❌ Failed to start server:", error.message);
+        console.error(error.stack);
+
         process.exit(1);
     }
 };

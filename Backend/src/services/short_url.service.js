@@ -2,24 +2,45 @@ import { generateShortCode } from "../utils/helper.js";
 import { saveShortUrl } from "../dao/short_url.js";
 
 export const createShortUrlServiceWithOutUser = async (originalUrl) => {
-    console.log(`🔗 Creating short URL for: ${originalUrl}`);
+    try {
+        console.log(`🔗 Creating short URL for: ${originalUrl}`);
 
-    const shortCode = generateShortCode();
+        const shortCode = generateShortCode();
 
-    await saveShortUrl(shortCode,originalUrl);
+        await saveShortUrl(shortCode, originalUrl);
 
-    console.log(`✅ Saved short URL with code: ${shortCode}`);
+        console.log(`✅ Saved short URL with code: ${shortCode}`);
 
-    return shortCode;
+        return shortCode;
+
+    } catch (error) {
+        console.error(
+            "❌ Error while creating short URL without user:",
+            error.message
+        );
+
+        throw error;
+    }
 };
-export const createShortUrlServiceWithUser = async (originalUrl , userId) => {
-    console.log(`🔗 Creating short URL for: ${originalUrl}`);
 
-    const shortCode = generateShortCode();
+export const createShortUrlServiceWithUser = async (originalUrl, userId) => {
+    try {
+        console.log(`🔗 Creating short URL for: ${originalUrl}`);
 
-    await saveShortUrl(shortCode, originalUrl, userId);
+        const shortCode = generateShortCode();
 
-    console.log(`✅ Saved short URL with code: ${shortCode}`);
+        await saveShortUrl(shortCode, originalUrl, userId);
 
-    return shortCode;
+        console.log(`✅ Saved short URL with code: ${shortCode}`);
+
+        return shortCode;
+
+    } catch (error) {
+        console.error(
+            "❌ Error while creating short URL with user:",
+            error.message
+        );
+
+        throw error;
+    }
 };
