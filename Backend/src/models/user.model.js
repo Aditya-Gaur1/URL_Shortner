@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import crypto from 'crypto';
 
 const userSchema = new mongoose.Schema({
 
@@ -16,21 +17,38 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        minlength: 8,
-        maxlength: 16,
-        validate: {
-            validator: function (password) {
-                return /^(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{8,16}$/.test(password);
-            },
-            message: "Password must contain at least one uppercase letter, one lowercase letter, and one symbol."
-        }
     },
 
-    user : {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     }
+
+}, {
+    timestamps: true
 });
+
+
+function getGravatarUrl(email) {
+
+    const hash = crypto
+        .createHash('md5')
+        .update(email.trim().toLowerCase())
+        .digest('hex');
+
+    return `https://www.gravatar.com/avatar/${hash}?d=mp`;
+}
+
+
+userSchema.virtual('avatar').get(function () {
+    return getGravatarUrl(this.email);
+});
+
+
+userSchema.set('toJSON', {
+    virtuals: true
+});
+
 
 const User = mongoose.model("User", userSchema);
 

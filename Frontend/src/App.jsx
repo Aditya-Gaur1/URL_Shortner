@@ -1,13 +1,7 @@
-// eslint-disable-next-line no-unused-vars
-import React from 'react'
-import Homepage from './pages/Homepage'
+import AppRouter from "./routing/AppRouter";
 
 const App = () => {
-  return (
-    <>
-    <Homepage/>
-    </>
-  )
-}
+  return <AppRouter />;
+};
 
-export default App
+export default App;

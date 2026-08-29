@@ -1,15 +1,40 @@
 import { nanoid } from "nanoid";
+import jsonwebtoken from "jsonwebtoken";
 
-/**
- * Generates a unique short code.
- * @param {number} length - Length of the generated code.
- * @returns {string} Generated short code.
- */
 export const generateShortCode = (length = 7) => {
-    try {
-        return nanoid(length);
-    } catch (error) {
-        console.error("❌ Error while generating short code:", error.message);
-        throw error;
-    }
+  try {
+    return nanoid(length);
+  } catch (error) {
+    console.error("❌ Error while generating short code:", error.message);
+
+    throw error;
+  }
+};
+
+// ===============================
+// ACCESS TOKEN
+// ===============================
+
+export const signAccessToken = (payload) => {
+  return jsonwebtoken.sign(payload, process.env.JWT_SECRET, {
+    expiresIn: "15m",
+  });
+};
+
+export const verifyAccessToken = (token) => {
+  return jsonwebtoken.verify(token, process.env.JWT_SECRET);
+};
+
+// ===============================
+// REFRESH TOKEN
+// ===============================
+
+export const signRefreshToken = (payload) => {
+  return jsonwebtoken.sign(payload, process.env.JWT_REFRESH_SECRET, {
+    expiresIn: "7d",
+  });
+};
+
+export const verifyRefreshToken = (token) => {
+  return jsonwebtoken.verify(token, process.env.JWT_REFRESH_SECRET);
 };

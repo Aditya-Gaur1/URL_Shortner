@@ -1,46 +1,79 @@
 import { generateShortCode } from "../utils/helper.js";
-import { saveShortUrl } from "../dao/short_url.js";
+import {
+  getCustomShortUrl,
+  saveShortUrl,
+  getShortUrlsByUserId,
+} from "../dao/short_url.js";
 
 export const createShortUrlServiceWithOutUser = async (originalUrl) => {
-    try {
-        console.log(`🔗 Creating short URL for: ${originalUrl}`);
+  try {
+    console.log(`🔗 Creating short URL for: ${originalUrl}`);
 
-        const shortCode = generateShortCode();
+    const shortCode = generateShortCode();
 
-        await saveShortUrl(shortCode, originalUrl);
+    await saveShortUrl(shortCode, originalUrl);
 
-        console.log(`✅ Saved short URL with code: ${shortCode}`);
+    console.log(`✅ Saved short URL with code: ${shortCode}`);
 
-        return shortCode;
+    return shortCode;
+  } catch (error) {
+    console.error(
+      "❌ Error while creating short URL without user:",
+      error.message,
+    );
 
-    } catch (error) {
-        console.error(
-            "❌ Error while creating short URL without user:",
-            error.message
-        );
-
-        throw error;
-    }
+    throw error;
+  }
 };
 
-export const createShortUrlServiceWithUser = async (originalUrl, userId) => {
-    try {
-        console.log(`🔗 Creating short URL for: ${originalUrl}`);
+export const createShortUrlServiceWithUser = async (
+  originalUrl,
+  userId,
+  slug = null,
+) => {
+  try {
+    console.log(`🔗 Creating short URL for: ${originalUrl}`);
 
-        const shortCode = generateShortCode();
+    const shortCode = slug || generateShortCode();
 
-        await saveShortUrl(shortCode, originalUrl, userId);
+    if (slug) {
+      const exists = await getCustomShortUrl(slug);
 
-        console.log(`✅ Saved short URL with code: ${shortCode}`);
-
-        return shortCode;
-
-    } catch (error) {
-        console.error(
-            "❌ Error while creating short URL with user:",
-            error.message
-        );
-
-        throw error;
+      if (exists) {
+        throw new Error("This custom URL already exists");
+      }
     }
+
+    await saveShortUrl(shortCode, originalUrl, userId);
+
+    console.log(`✅ Saved short URL with code: ${shortCode}`);
+
+    return shortCode;
+  } catch (error) {
+    console.error(
+      "❌ Error while creating short URL with user:",
+      error.message,
+    );
+
+    throw error;
+  }
+};
+// ======================================
+// GET ALL URLS FOR CURRENT USER
+// ======================================
+
+export const getUserShortUrls = async (userId) => {
+  try {
+    console.log(`🔍 Fetching URLs for user: ${userId}`);
+
+    const urls = await getShortUrlsByUserId(userId);
+
+    console.log(`✅ Found ${urls.length} URLs for user`);
+
+    return urls;
+  } catch (error) {
+    console.error("❌ Error while getting user's short URLs:", error.message);
+
+    throw error;
+  }
 };
