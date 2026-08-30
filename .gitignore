@@ -1,9 +1,13 @@
 # Dependencies
 node_modules/
 
+
 # Environment variables
 .env
 .env.*
+
+# Google OAuth credentials
+client_secret_*.json
 
 # Logs
 *.log

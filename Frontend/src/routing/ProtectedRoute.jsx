@@ -8,9 +8,7 @@ const ProtectedRoute = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <p className="text-gray-500 text-lg">
-          Checking authentication...
-        </p>
+        <p className="text-gray-500 text-lg">Checking authentication...</p>
       </div>
     );
   }

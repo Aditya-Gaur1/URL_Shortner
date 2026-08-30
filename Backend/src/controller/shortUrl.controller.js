@@ -105,12 +105,8 @@ export const get_my_urls = async (req, res) => {
       success: true,
       urls,
     });
-
   } catch (error) {
-    console.error(
-      "❌ Error while getting user's URLs:",
-      error.message
-    );
+    console.error("❌ Error while getting user's URLs:", error.message);
 
     return res.status(500).json({
       success: false,

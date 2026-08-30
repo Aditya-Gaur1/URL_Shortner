@@ -3,6 +3,7 @@ import {
   getCustomShortUrl,
   saveShortUrl,
   getShortUrlsByUserId,
+  deleteShortUrlById,
 } from "../dao/short_url.js";
 
 export const createShortUrlServiceWithOutUser = async (originalUrl) => {
@@ -73,6 +74,29 @@ export const getUserShortUrls = async (userId) => {
     return urls;
   } catch (error) {
     console.error("❌ Error while getting user's short URLs:", error.message);
+
+    throw error;
+  }
+};
+// ======================================
+// DELETE URL FOR CURRENT USER
+// ======================================
+
+export const deleteUserShortUrl = async (urlId, userId) => {
+  try {
+    console.log(`🗑️ Deleting URL: ${urlId} for user: ${userId}`);
+
+    const deletedUrl = await deleteShortUrlById(urlId, userId);
+
+    if (!deletedUrl) {
+      throw new Error("URL not found");
+    }
+
+    console.log(`✅ Deleted short URL: ${deletedUrl.short_url}`);
+
+    return deletedUrl;
+  } catch (error) {
+    console.error("❌ Error while deleting user's URL:", error.message);
 
     throw error;
   }
