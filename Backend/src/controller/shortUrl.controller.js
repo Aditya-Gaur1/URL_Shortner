@@ -33,7 +33,7 @@ export const createShortUrl = async (req, res) => {
 
     console.log(`🎯 Short code returned to controller: ${shortCode}`);
 
-    const shortUrl = `${process.env.APP_URL}${shortCode}`;
+    const shortUrl = `${process.env.APP_URL.replace(/\/$/, "")}/${shortCode}`;
 
     console.log(`✅ Short URL created: ${shortUrl}`);
 
