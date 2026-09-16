@@ -4,6 +4,7 @@ A full-stack URL shortening platform built with the MERN stack.
 
 The application allows users to create short URLs, use custom slugs, track link clicks, manage their URLs through a dashboard, authenticate using email/password or Google OAuth, and generate QR codes for shortened links.
 
+Live Link :- https://url-shortener-frontend-0zdj.onrender.com
 ---
 
 ## 🚀 Features
