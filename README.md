@@ -73,7 +73,7 @@ Live Link :- https://url-shortener-frontend-0zdj.onrender.com
 - CORS
 
 ---
-
+<img width="3997" height="8005" alt="diagram" src="https://github.com/user-attachments/assets/b076d07a-a6f9-40b8-8fbc-a34816a15c71" />
 ## 🏗️ Project Structure
 ```text
 URL_Shortner/
